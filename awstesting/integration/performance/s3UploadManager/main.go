@@ -161,6 +161,7 @@ func SetUnsignedPayload(r *request.Request) {
 		return
 	}
 	r.HTTPRequest.Header.Set("X-Amz-Content-Sha256", "UNSIGNED-PAYLOAD")
+	r.HTTPRequest.Header.Set("Accept-Encoding", "identity")
 }
 
 func newUploader(clientConfig ClientConfig, sdkConfig SDKConfig, options ...request.Option) *s3manager.Uploader {
@@ -169,12 +170,14 @@ func newUploader(clientConfig ClientConfig, sdkConfig SDKConfig, options ...requ
 	if sdkConfig.WithUnsignedPayload {
 		options = append(options, SetUnsignedPayload)
 	}
+	ll := aws.LogDebug
 
 	sess, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			HTTPClient:                    client,
 			S3Disable100Continue:          aws.Bool(!sdkConfig.ExpectContinue),
 			S3DisableContentMD5Validation: aws.Bool(!sdkConfig.WithContentMD5),
+			LogLevel: &ll,
 		},
 		SharedConfigState: session.SharedConfigEnable,
 	})

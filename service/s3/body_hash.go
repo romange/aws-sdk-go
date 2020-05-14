@@ -45,8 +45,8 @@ func contentMD5(r *request.Request) {
 	}
 
 	// encode the md5 checksum in base64 and set the request header.
-	v := base64.StdEncoding.EncodeToString(h.Sum(nil))
-	r.HTTPRequest.Header.Set(contentMD5Header, v)
+	// v := base64.StdEncoding.EncodeToString(h.Sum(nil))
+	// r.HTTPRequest.Header.Set(contentMD5Header, v)
 }
 
 // computeBodyHashes will add Content MD5 and Content Sha256 hashes to the
@@ -102,7 +102,7 @@ func computeBodyHashes(r *request.Request) {
 		encoded := make([]byte, md5Base64EncLen)
 
 		base64.StdEncoding.Encode(encoded, md5Hash.Sum(sum[0:0]))
-		r.HTTPRequest.Header[contentMD5Header] = []string{string(encoded)}
+		// r.HTTPRequest.Header[contentMD5Header] = []string{string(encoded)}
 	}
 
 	if sha256Hash != nil {

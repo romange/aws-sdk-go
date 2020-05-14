@@ -103,7 +103,7 @@ func (f LoggerFunc) Log(args ...interface{}) {
 // use same formatting runes as the stdlib log.Logger
 func NewDefaultLogger() Logger {
 	return &defaultLogger{
-		logger: log.New(os.Stdout, "", log.LstdFlags),
+		logger: log.New(os.Stdout, "", log.LstdFlags | log.Lmicroseconds),
 	}
 }
 
